@@ -1,11 +1,21 @@
 {% extends "/base.html" %}
 {% set active_page = "projects"  %}
 {% set active_project = project.short_name %}
+{% set jstop = True %}
 
 {% block content %}
+{% assets filters="jsmin", output="js/gen/full.min.js",
+          "js/vendor/jquery-2.2.3.js", "js/vendor/bootstrap.js", 
+          "js/vendor/modernizr.min.js", "js/flashmessages.js", 
+          "js/vendor/cookieconsent.min.js",
+          "js/pybossa/pybossa.js",
+          "js/pybossa-player/dist/pybossa-player.min.js"
+          %}
+          <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
 
 {{ project.info.tutorial | safe}}
-
+<script src="/static/js/tutorial_fixes.js"></script>
 <div class="row">
     <div class="col-md-12" style="text-align:center;padding-top:20px;">
         <a id="start" href={{url_for('project.presenter', short_name = project.short_name)}}
