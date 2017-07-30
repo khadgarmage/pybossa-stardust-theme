@@ -223,7 +223,7 @@ function sleep(ms) {
 }
 
 function generateAnswers(task) {
-    document.getElementById("i18n_question").innerHTML = decodeURI(task.info.question)
+    document.getElementById("i18n_question").innerHTML = task.info.question
     // $('#photo-link').html('').append(task.info.image);
     // $("#photo-link").attr("href", task.info.link);
     currImage = task.info.image;
@@ -237,7 +237,7 @@ function generateAnswers(task) {
     polygons = [];
     ctx.drawImage(currImage, 0, 0, canvas.width, canvas.height);
     if (task.info.result != null && task.info.result != undefined && task.info.result != '') {
-        var obj = JSON.parse(decodeURI(task.info.result));
+        var obj = JSON.parse(task.info.result);
         $(".draw_type").attr("disabled",true);
         $('#color').val(obj["color"]);
         $('#color').change();
@@ -362,7 +362,7 @@ pybossa.presentTask(function(task, deferred) {
     if ( !$.isEmptyObject(task) ) {
         loadUserProgress();
         //i18n_translate();
-        task.info.question = decodeURI(task.info.question);
+        task.info.question = task.info.question;
         generateAnswers(task);
         generateResult(task.info.question, task.info.result);
         $('#task-id').html(task.id);
@@ -373,9 +373,9 @@ pybossa.presentTask(function(task, deferred) {
             answer["polygons"] = polygons;
             if (typeof answer != 'undefined') {
                 //console.log(answer);
-                task.info.result = encodeURI(JSON.stringify(answer));
-                task.info.answers = encodeURI(task.info.answers);
-                task.info.question = encodeURI(task.info.question);
+                task.info.result = JSON.stringify(answer);
+                task.info.answers = task.info.answers;
+                task.info.question = task.info.question;
                 delete task.info.image
                 pybossa.saveTask(task.id, task.info).done(function() {
                     deferred.resolve();

@@ -163,7 +163,7 @@ function sleep(ms) {
 function generateAnswers(question, answers) {
     document.getElementById("i18n_question").innerHTML = question
     $("#answer").empty();
-    var obj = JSON.parse(decodeURI(answers));
+    var obj = JSON.parse(answers);
     titles = obj[userLocale]["title"]
     list = obj[userLocale]["list"]
     for (var k in titles) {
@@ -179,7 +179,7 @@ function generateResult(question, result) {
         return;
     }
     document.getElementById("i18n_question").innerHTML = "请审核如下答案:<br>"+question
-    var obj = JSON.parse(decodeURI(result));
+    var obj = JSON.parse(result);
     for (var k in obj) {
         $("input#"+k).val(obj[k]);         
     }
@@ -192,7 +192,7 @@ pybossa.presentTask(function(task, deferred) {
     if ( !$.isEmptyObject(task) ) {
         loadUserProgress();
         //i18n_translate();
-        task.info.question = decodeURI(task.info.question);
+        task.info.question = task.info.question;
         generateAnswers(task.info.question, task.info.answers);
         generateResult(task.info.question, task.info.result);
         $('#photo-link').html('').append(task.info.image);
@@ -216,9 +216,9 @@ pybossa.presentTask(function(task, deferred) {
             }
             if (typeof answer != 'undefined') {
                 //console.log(answer);
-                task.info.result = encodeURI(JSON.stringify(answer));
-                task.info.answers = encodeURI(task.info.answers);
-                task.info.question = encodeURI(task.info.question);
+                task.info.result = JSON.stringify(answer);
+                task.info.answers = task.info.answers;
+                task.info.question = task.info.question;
                 delete task.info.image
                 pybossa.saveTask(task.id, task.info).done(function() {
                     deferred.resolve();
